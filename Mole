@@ -1,0 +1,311 @@
+function POPOUT(nn: number, del: time span):
+	set {_rn} to random integer between 1 to 9
+	while block at {mole.gameblock::%{_nn}%::%{_rn}%} is stone:
+		set {_rn} to random integer between 1 to 9
+		if block at {mole.gameblock::%{_nn}%::%{_rn}%} is stone:
+			set block at {mole.gameblock::%{_nn}%::%{_rn}%} to iron ore
+	set {_loc} to block at {mole.gameblock::%{_nn}%::%{_rn}%}'s location
+	wait {_del}
+	if block at {_loc} is stone:
+		stop
+	else:
+		set block at {_loc} to stone
+
+command /molegameset:
+	permission: op
+	trigger:
+		set {%player%.molegameset} to true
+		message "&fleft click, right click"
+		
+on right click:
+	if {%player%.molegameset} is true:
+		set {%player%.mole::1} to event-block's location
+		message "%{%player%.mole::1}%"
+		cancel event
+	else if {%player%.molebuttonset} is true:
+		set {mole.gamestart::%{%player%.settingmole}%} to event-block's location
+		message "&fComplete"
+		set {%player%.molebuttonset} to false
+	if event-block is stone:
+		if {%player%.molegamming} is true:
+			subtract 1 from {%player%.molepoint}
+			play "ENTITY_IRON_GOLEM_DAMAGE" to player
+	if event-block is iron ore:
+		if {%player%.molegamming} is true:
+			add 1 to {%player%.molepoint}
+			play "ENTITY_PLAYER_LEVELUP" to player
+			set event-block to stone
+	if event-block is green wool:
+		if {%player%.molegamming} is true:
+			message "&f[ &aYou has already started &f]"
+			stop
+		if player's money >= 150:
+			if {mole.gamestart::*} contains event-block's location:
+				loop {mole.gamestart::*}:
+					if loop-value is event-block's location:
+						set {_n} to loop-index parsed as number
+				if {mole.moling::%{_n}%} is true:
+					message "&f[ &aGame has been already started &f]"
+					stop
+				set {%player%.molegamming} to true
+				set {mole.moling::%{_n}%} to true
+				subtract 150 from player's money
+				send player title "" with subtitle "&c-150" for 1 seconds
+				wait 1 seconds
+				send player title "&a&lREADY" with subtitle "&cSTONE -1, IRON 1" for 2 seconds
+				wait 5 seconds
+				send player title "&a&lSTART" for 2 seconds
+				set {%player%.molepoint} to 0
+				POPOUT({_n}, 2 seconds)
+				wait 1 second
+				POPOUT({_n}, 2 seconds)
+				wait 1 second
+				POPOUT({_n}, 2 seconds)
+				wait 1 second #3
+				POPOUT({_n}, 1.5 seconds)
+				wait 0.8 second
+				POPOUT({_n}, 1.5 seconds)
+				wait 0.8 second
+				POPOUT({_n}, 1.5 seconds)
+				wait 0.8 second
+				POPOUT({_n}, 1.5 seconds)
+				wait 0.8 second
+				POPOUT({_n}, 1.5 seconds)
+				wait 0.8 second #7
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second #13
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second #18
+				POPOUT({_n}, 0.6 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.6 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.6 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.6 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.6 seconds)
+				wait 0.4 second #20
+				POPOUT({_n}, 0.5 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.5 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.5 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.5 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.5 seconds)
+				wait 0.4 second
+				send player title "&c&lSTOP" for 2 seconds
+				set {%player%.molegamming} to false
+				set {mole.moling::%{_n}%} to false
+				message "&f[ &a%{%player%.molepoint}% &f]&7POINTS"
+				if {%player%.molepoint} >= 30:
+					add 500 to player's money
+					send player title "" with subtitle "&a+400"
+				else if {%player%.molepoint} >= 25:
+					add 300 to player's money
+					send player title "" with subtitle "&a+300"
+				else if {%player%.molepoint} >= 20:
+					add 200 to player's money
+					send player title "" with subtitle "&a+200"
+				else if {%player%.molepoint} >= 15:
+					add 100 to player's money
+					send player title "" with subtitle "&a+150"
+				else:
+					send player title "" with subtitle "&a+0"
+	if event-block is red wool:
+		if {%player%.molegamming} is true:
+			message "&f[ &aYou has already started &f]"
+			stop
+		if player's money >= 200:
+			if {mole.gamestart::*} contains event-block's location:
+				loop {mole.gamestart::*}:
+					if loop-value is event-block's location:
+						set {_n} to loop-index parsed as number
+				if {mole.moling::%{_n}%} is true:
+					message "&f[ &aGame has been already started &f]"
+					stop
+				set {%player%.molegamming} to true
+				set {mole.moling::%{_n}%} to true
+				subtract 150 from player's money
+				send player title "" with subtitle "&c-200" for 1 seconds
+				wait 1 seconds
+				send player title "&a&lREADY" with subtitle "&cSTONE -1, IRON 1" for 2 seconds
+				wait 5 seconds
+				send player title "&a&lSTART" for 2 seconds
+				set {%player%.molepoint} to 0
+				wait 0.5 seconds
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 seconds
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 1 seconds)
+				wait 0.6 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.8 seconds)
+				wait 0.5 second
+				POPOUT({_n}, 0.6 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.6 seconds)
+				wait 0.4 seconds
+				POPOUT({_n}, 0.6 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.6 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.6 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.6 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.6 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.6 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.6 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.6 seconds)
+				wait 0.4 second
+				POPOUT({_n}, 0.5 seconds)
+				wait 0.35 second
+				POPOUT({_n}, 0.5 seconds)
+				wait 0.35 second
+				POPOUT({_n}, 0.5 seconds)
+				wait 0.35 second
+				POPOUT({_n}, 0.5 seconds)
+				wait 0.35 second
+				POPOUT({_n}, 0.5 seconds)
+				wait 0.35 second
+				POPOUT({_n}, 0.5 seconds)
+				wait 0.35 second
+				POPOUT({_n}, 0.5 seconds)
+				wait 0.35 second
+				POPOUT({_n}, 0.5 seconds)
+				wait 0.35 second
+				POPOUT({_n}, 0.5 seconds)
+				wait 0.35 second
+				POPOUT({_n}, 0.5 seconds)
+				wait 0.35 second
+				send player title "&c&lSTOP" for 2 seconds
+				set {%player%.molegamming} to false
+				set {mole.moling::%{_n}%} to false
+				wait 0.5 seconds
+				message "&f[ &a%{%player%.molepoint}% &f]&7POINTS"
+				if {%player%.molepoint} >= 30:
+					add 500 to player's money
+					send player title "" with subtitle "&a+700"
+				else if {%player%.molepoint} >= 25:
+					add 300 to player's money
+					send player title "" with subtitle "&a+500"
+				else if {%player%.molepoint} >= 20:
+					add 200 to player's money
+					send player title "" with subtitle "&a+300"
+				else if {%player%.molepoint} >= 15:
+					add 100 to player's money
+					send player title "" with subtitle "&a+250"
+				else:
+					send player title "" with subtitle "&a+0"
+					
+				
+command /molegameplayerreset [<player>]:
+	permission: op
+	trigger:
+		delete {%arg-player%.molegamming}
+		
+command /molegamestagereset [<number>]:
+	permission: op
+	trigger:
+		delete {mole.moling::%arg-number%}
+		
+
+on left click:
+	if {%player%.molegameset} is true:
+		set {%player%.mole::2} to event-block's location
+		message "%{%player%.mole::1}%"
+		message "%{%player%.mole::2}%"
+		cancel event
+		
+command /molegamedefine [<number>]:
+	permission: op
+	trigger:
+		if {%player%.molegameset} is true:
+			if {%player%.mole::1} is set:
+				if {%player%.mole::2} is set:
+					message "%{%player%.mole::1}% %{%player%.mole::2}%"
+					set {mole.gameloc::%arg-1%::1} to {%player%.mole::1}
+					set {mole.gameloc::%arg-1%::2} to {%player%.mole::2}
+					message "&fRight Click on block where you want to set game start button"
+					set {%player%.molegameset} to false
+					set {%player%.molebuttonset} to true
+					set {%player%.settingmole} to arg-1
+					set {_n} to 1
+					loop blocks within block at {mole.gameloc::%arg-1%::1} and block at {mole.gameloc::%arg-1%::2}:
+						set {mole.gameblock::%arg-1%::%{_n}%} to loop-block's location
+						message "%{mole.gameblock::%arg-1%::%{_n}%}%"
+						add 1 to {_n}
